@@ -1,10 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
-    public float Speed = 10f;
+    [SerializeField] private float Speed = 10f;
     public float JumpForce = 300f;
 
   private bool _isGrounded;
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour
         MovementLogic();
         JumpLogic();
     }
+
+   
 
     private void MovementLogic()
     {
@@ -48,6 +51,12 @@ public class Player : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         IsGroundedUpate(collision, true);
+        if (collision.gameObject.tag == "bonusSpeedGrow")
+        {
+           Speed = Speed * 2;
+            Destroy(collision.gameObject);
+        }
+           
     }
 
     void OnCollisionExit(Collision collision)
@@ -62,4 +71,6 @@ public class Player : MonoBehaviour
             _isGrounded = value;
         }
     }
+
+    
 }
